@@ -1,12 +1,13 @@
 pipeline {
-    agent any;
+    agent any
 
     stages {
         stage('Code Clone') {
             steps {
-                git url:"https://github.com/Rushitole/two-tier-flask-app.git", branch:"master"
-             }
-}
+                git url: "https://github.com/Rushitole/two-tier-flask-app.git" , branch: "master"
+            }
+        }
+
         stage('Build') {
             steps {
                 sh "docker build -t two-tier-flask-app . "
@@ -36,7 +37,7 @@ pipeline {
         stage('Deploy') {
             steps {
                 sh "docker compose pull && docker compose up -d --build flask-app"
-            }
+   }
 }
 }
 }
