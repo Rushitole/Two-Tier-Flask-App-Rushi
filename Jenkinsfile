@@ -1,5 +1,4 @@
-@Library("Shared") 
-pipeline{
+ pipeline{
     
     agent { label "dev"};
     
