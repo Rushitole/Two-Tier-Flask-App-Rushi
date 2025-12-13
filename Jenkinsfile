@@ -4,10 +4,8 @@ pipeline {
     stages {
         stage('Code Clone') {
             steps {
-                
                 git url:"https://github.com/Rushitole/two-tier-flask-app.git", branch:"master"
-            
-        }
+             }
 }
         stage('Build') {
             steps {
