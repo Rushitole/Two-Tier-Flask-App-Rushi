@@ -1,4 +1,6 @@
-This is a dummy file
+## 🏆 Certifications
+
+[![AWS Certified Solutions Architect – Associate](https://images.credly.com/size/120x120/images/0e284c3f-5164-4b21-8660-0d84737941bc/image.png)](https://www.credly.com/badges/106ec314-4524-4676-a033-cce4d6fa62ac/public_url)
 
 
 
