@@ -1,10 +1,23 @@
+@Library("shared") _
 pipeline {
     agent any
 
     stages {
         stage('Code Clone') {
             steps {
-                git url: "https://github.com/Rushitole/two-tier-flask-app.git" , branch: "master"
+                script{
+                    clone("https://github.com/Rushitole/Two-Tier-Flask-App-Rushi.git" ,"master")
+                    
+                }
+            }
+        }
+        
+        stage("Trivy Files System Scan"){
+            steps{
+                script{
+                    trivy_fs()
+                }
+               
             }
         }
 
@@ -22,15 +35,9 @@ pipeline {
         
         stage("push to docker hub"){
             steps{
-                withCredentials([usernamePassword(
-                    credentialsId:"DockerhubCreds",
-                    passwordVariable:"dockerHubPass",
-                    usernameVariable:"dockerHubUser"
-                )]){
-                sh "docker login -u ${dockerHubUser} -p ${dockerHubPass}"
-                sh "docker tag two-tier-flask-app ${env.dockerHubUser}/two-tier-flask-app:latest"
-                sh "docker push ${env.dockerHubUser}/two-tier-flask-app:latest"
-                }
+               script{
+                   docker_push("DockerhubCreds","two-tier-flask-app")
+               }
             }
         }
 
@@ -39,5 +46,28 @@ pipeline {
                 sh "docker compose pull && docker compose up -d --build flask-app"
    }
 }
+}
+post{
+    success{
+        script{
+            mail (
+            to: 'prernasable05@gmail.com',
+            subject: "Build successed",
+            body: 'This app Build successfully using jenkins CI/CD Pipeline '
+          )  
+        }
+    }
+    
+    
+    failure{
+        script{
+            mail(
+            to: 'prernasable05@gmail.com',
+            subject: "Build successed",
+            body: 'This app failed to Build using jenkins CI/CD Pipeline '
+          ) 
+        }
+    }
+    
 }
 }
